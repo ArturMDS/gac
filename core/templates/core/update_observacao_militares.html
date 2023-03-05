@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+
+{% load bootstrap %}
+{% block menu %}
+
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#">Desativado</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#"
+               role="button" aria-haspopup="true" aria-expanded="false">Pessoal</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item"
+                   href="{% url 'core_home' %}">Listar</a>
+                <a class="dropdown-item"
+                   href="{% url 'core_read_pessoa' %}">Cadastrar</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item"
+                   href="{% url 'core_list_update_pessoa' %}">Atualizar</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#">Desativado</a>
+        </li>
+        {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Olá {{ user }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+        {% endif %}
+    </ul>
+
+{% endblock %}
+{% block list %}
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">2º GAC</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#conteudoNavbarSuportado"
+                    aria-controls="conteudoNavbarSuportado"
+                    aria-expanded="false" aria-label="Alterna navegação">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+        <div class="collapse navbar-collapse" id="conteudoNavbarSuportado">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                       role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Dados
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item"
+                           href="{% url 'core_list_dados' %}">Dados Pessoais</a>
+                        <a class="dropdown-item"
+                           href="{% url 'core_list_enderecos' %}">Endereço</a>
+                        <a class="dropdown-item"
+                           href="{% url 'core_list_contatos' %}">Contatos</a>
+                        <a class="dropdown-item"
+                           href="{% url 'core_list_documentos' %}">Documento</a>
+                        <a class="dropdown-item"
+                           href="{% url 'core_list_filiacoes' %}">Filiação</a>
+                        <a class="dropdown-item"
+                           href="{% url 'core_list_militares' %}">Dados Militares</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownObs"
+                       role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Alterações <span class="sr-only">(página atual)</span>
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item"
+                           href="{% url 'core_list_observacoes' %}">Consultar</a>
+                        <a class="dropdown-item"
+                           href="{% url 'core_read_observacao' %}">Cadastrar</a>
+                        <a class="dropdown-item"
+                           href="{% url 'core_update_observacao_militares' %}">Alterar</a>
+                    </div>
+                </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Desativado</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Desativado</a>
+                    </li>
+            </ul>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="search"
+                       placeholder="Pesquisar" aria-label="Pesquisar">
+                <button class="btn btn-outline-success my-2 my-sm-0"
+                        type="submit">Pesquisar</button>
+            </form>
+        </div>
+    </nav>
+
+{% endblock %}
+{% block main %}
+
+    <div class="row">
+
+        <div class="col-3">
+            <div class="nav flex-column nav-pills" id="v-pills-tab-list" role="tablist"
+                     aria-orientation="vertical">
+                {% for militar in militares %}
+                    <a class="nav-link" href="{% url 'core_update_observacao_fatos' militar.id %}">
+                            {{ militar.pessoa }}</a>
+
+                {% endfor %}
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+

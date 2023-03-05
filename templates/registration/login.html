@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block menu %}
+
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#">Desativado</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#"
+               role="button" aria-haspopup="true" aria-expanded="false">Pessoal</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item"
+                   href="{% url 'core_home' %}">Listar</a>
+                <a class="dropdown-item"
+                   href="{% url 'core_read_pessoa' %}">Cadastrar</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item"
+                   href="{% url 'core_list_update_pessoa' %}">Atualizar</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#">Desativado</a>
+        </li>
+    </ul>
+
+{% endblock %}
+{% block main %}
+    <div class="row">
+        <div class="col-12" align="center">
+            {% if form.errors %}
+                <p>Nome do usuário e/ou senha inválidos. Tente novamente.</p>
+            {% endif %}
+
+            {% if next %}
+                {% if user.is_authenticated %}
+                <p>Sua conta não tem acesso a essa página.
+                    Para prosseguir, faça o login com uma conta que tenha acesso.</p>
+                {% else %}
+                <p>Faça seu login para ver essa página!</p>
+                {% endif %}
+            {% endif %}
+
+            <form method="post" action="{% url 'login' %}">
+                {% csrf_token %}
+                <table>
+                <tr>
+                    <td>{{ form.username.label_tag }}</td>
+                    <td>{{ form.username }}</td>
+                </tr>
+                <tr>
+                    <td>{{ form.password.label_tag }}</td>
+                    <td>{{ form.password }}</td>
+                </tr>
+                </table>
+
+            <input type="submit" value="login">
+            <input type="hidden" name="next" value="{{ next }}">
+            </form>
+
+            {# Assumes you set up the password_reset view in your URLconf #}
+            <p><a href="{% url 'password_reset' %}">Esqueceu a senha?</a></p>
+        </div>
+    </div>
+{% endblock %}
