@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% load bootstrap %}
+{% block menu %}
+
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#">Desativado</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#"
+               role="button" aria-haspopup="true" aria-expanded="false">Pessoal</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item"
+                   href="{% url 'core_home' %}">Listar</a>
+                <a class="dropdown-item"
+                   href="{% url 'core_read_pessoa' %}">Cadastrar</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item"
+                   href="{% url 'core_list_update_pessoa' %}">Atualizar</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#">Desativado</a>
+        </li>
+        {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Olá {{ user }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+        {% endif %}
+    </ul>
+
+{% endblock %}
+{% block main %}
+
+    <div class="row">
+
+        <div class="col-3">
+            <div class="nav flex-column nav-pills" id="v-pills-tab-list" role="tablist"
+                     aria-orientation="vertical">
+                {% for objeto in objetos %}
+                    {% if objeto.id == militar.id %}
+                        <a class="nav-link active"
+                           href="{% url 'core_update_militar' militar.id %}">
+                            {{ militar.pessoa.nome_guerra}}</a>
+                    {% else %}
+                        <a class="nav-link"
+                           href="{% url 'core_update_militar' objeto.id %}">
+                            {{ objeto.pessoa.nome_guerra}}</a>
+                    {% endif %}
+                {% endfor %}
+
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist"
+                     aria-orientation="vertical">
+                <a class="nav-link"
+                   href="{% url 'core_update_pessoa' militar.id %}">Militar</a>
+                <a class="nav-link"
+                   href="{% url 'core_update_endereco' militar.id %}">Endereco</a>
+                <a class="nav-link"
+                   href="{% url 'core_update_contato' militar.id %}">Contato</a>
+                <a class="nav-link"
+                   href="{% url 'core_update_documento' militar.id %}">Documento</a>
+                <a class="nav-link"
+                   href="{% url 'core_update_filiacao' militar.id %}">Filiação</a>
+                <a class="nav-link active"
+                   href="{% url 'core_update_militar' militar.id %}">Dados Militares</a>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <form action="{% url 'core_update_militar' militar.id %}"
+                  method="POST">
+                {% csrf_token %}
+
+                {{ form|bootstrap }}
+                <button type="submit" class="btn btn-secondary">Salvar</button>
+                <a href="{% url 'core_delete_militar' militar.id %}"
+                        class="btn btn-warning">
+                        Deletar</a>
+
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+

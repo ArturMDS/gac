@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% load bootstrap %}
+{% block menu %}
+
+    <ul class="nav nav-pills">
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#">Desativado</a>
+        </li>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle active" data-toggle="dropdown" href="#"
+               role="button" aria-haspopup="true" aria-expanded="false">Pessoal</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" href="{% url 'core_home' %}">Listar</a>
+                <a class="dropdown-item" href="{% url 'core_read_pessoa' %}">Cadastrar</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="{% url 'core_list_update_pessoa' %}">Atualizar</a>
+            </div>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link disabled" href="#">Desativado</a>
+        </li>
+        {% if user.is_authenticated %}
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Olá {{ user }}</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Login</a>
+            </li>
+        {% endif %}
+    </ul>
+
+{% endblock %}
+{% block main %}
+
+    <div class="row">
+        <div class="col-12">
+            <h1>Tem certeza que quer deletar {{ obj }}?</h1>
+
+            <form method="POST">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger">Deletar</button>
+
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
