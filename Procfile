@@ -1,1 +1,1 @@
-web: gunicorn gac.wsgi
+web: python manage.py migrate && gunicorn gac.wsgi
