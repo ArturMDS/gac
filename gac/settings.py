@@ -78,19 +78,12 @@ WSGI_APPLICATION = 'gac.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-#default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'gac.sqlite3')
-#DATABASES = {'default': config('DATABASE_URL', default=default_dburl, cast=dburl), }
-
+default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'gac.sqlite3')
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'railway',
-        'USER': 'postgres',
-        'PASSWORD': 'y6LUHcvOsihUCPPMDhGh',
-        'HOST': 'containers-us-west-28.railway.app',
-        'PORT': '7715'
-    }
+    'default': config('DATABASE_URL', default=default_dburl, cast=dburl),
 }
+
+
 
 
 # Password validation
@@ -128,7 +121,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 STATICFILES_DIRS = [BASE_DIR, 'static']
